@@ -5,8 +5,8 @@
       <stop offset="1" stop-color="#222040"/>
     </linearGradient>
   </defs>
-  <rect x="6" y="6" width="116" height="116" rx="26" fill="url(#bg)"/>
-  <text x="18" y="80" font-family="Helvetica, Arial, sans-serif" font-weight="700" font-size="43" fill="#ffffff">php</text>
-  <path fill="#f0883e" d="M101 47 112 64H90z"/>
-  <path fill="#4c9aff" d="M90 66h22L101 83z"/>
+  <rect x="0" y="0" width="128" height="128" fill="url(#bg)"/>
+  <text x="16" y="80" font-family="Helvetica, Arial, sans-serif" font-weight="700" font-size="42" fill="#ffffff">php</text>
+  <path fill="#f0883e" d="M104 47 114 64H94z"/>
+  <path fill="#4c9aff" d="M94 66h20L104 83z"/>
 </svg>
