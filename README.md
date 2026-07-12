@@ -17,6 +17,22 @@ click, not a search.
 It builds its own lightweight index of your workspace by parsing PHP directly, so it works
 on its own — it doesn't depend on a paid language server, and it won't expire.
 
+## How to install
+
+In the editor's **Extensions** panel, search for **`PHP Hierarchy Lens`** (publisher
+**`igaster`**) and click **Install**. Then open any `.php` file — the indicators appear
+automatically.
+
+- **Cursor, VSCodium, Windsurf, Gitpod, Eclipse Theia** — available now via the
+  [Open VSX registry](https://open-vsx.org/extension/igaster/php-hierarchy-lens); just
+  search and install.
+- **VS Code** — not on the VS Code Marketplace yet. For now, download the `.vsix` from the
+  [Releases](https://github.com/igaster/vscode-php-hierarchy-lens/releases) page and install
+  via **Extensions → ⋯ → Install from VSIX…**, or:
+  ```bash
+  code --install-extension php-hierarchy-lens-*.vsix
+  ```
+
 ## Features
 
 - **↓ Implementations** — on interfaces and interface/abstract methods: who implements this.
