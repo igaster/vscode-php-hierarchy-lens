@@ -1,0 +1,10 @@
+node_modules/
+dist/
+out/
+.vscode-test/
+*.vsix
+test/fixtures/.vscode/
+generated-icons/
+.playwright-mcp/
+.DS_Store
+.claude/settings.local.json

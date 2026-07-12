@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#343156"/>
+      <stop offset="1" stop-color="#222040"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="116" height="116" rx="26" fill="url(#bg)"/>
+  <text x="18" y="80" font-family="Helvetica, Arial, sans-serif" font-weight="700" font-size="43" fill="#ffffff">php</text>
+  <path fill="#f0883e" d="M101 47 112 64H90z"/>
+  <path fill="#4c9aff" d="M90 66h22L101 83z"/>
+</svg>

@@ -1,0 +1,185 @@
+{
+  "name": "php-hierarchy-lens",
+  "displayName": "PHP Hierarchy Lens",
+  "description": "PhpStorm-style CodeLens and gutter indicators for interface implementations, class inheritance, method overrides, and trait usage.",
+  "version": "0.0.12",
+  "publisher": "igaster",
+  "license": "MIT",
+  "author": {
+    "name": "Giannis Gasteratos",
+    "url": "https://github.com/igaster"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/igaster/vscode-php-hierarchy-lens.git"
+  },
+  "bugs": {
+    "url": "https://github.com/igaster/vscode-php-hierarchy-lens/issues"
+  },
+  "homepage": "https://github.com/igaster/vscode-php-hierarchy-lens#readme",
+  "icon": "media/icon.png",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Visualization"
+  ],
+  "keywords": [
+    "php",
+    "codelens",
+    "gutter",
+    "inheritance",
+    "implements",
+    "override",
+    "interface",
+    "trait",
+    "hierarchy",
+    "navigation",
+    "phpstorm"
+  ],
+  "activationEvents": [
+    "onLanguage:php"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "phpRelations.showLocations",
+        "title": "PHP Relations: Show Related Locations"
+      },
+      {
+        "command": "phpRelations.reindex",
+        "title": "PHP Relations: Rebuild Index"
+      }
+    ],
+    "configuration": {
+      "title": "PHP Relations",
+      "properties": {
+        "phpRelations.enable": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Master switch for all PHP inheritance/implementation indicators. Turn this off to disable both CodeLens and gutter icons.",
+          "order": 0
+        },
+        "phpRelations.codeLens.enable": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show indicators as **CodeLens** (clickable text above declarations, e.g. `2 implementations`).",
+          "order": 1
+        },
+        "phpRelations.gutterIcons.enable": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show indicators as **gutter icons** (up/down glyphs in the margin, with a hover link).",
+          "order": 2
+        },
+        "phpRelations.gutterIcons.style": {
+          "type": "string",
+          "enum": [
+            "arrows",
+            "triangles",
+            "chevrons",
+            "circles"
+          ],
+          "enumDescriptions": [
+            "Thin line arrows with a shaft.",
+            "Solid up/down triangles (carets) (default).",
+            "Minimal thin chevrons (no shaft).",
+            "Circular badge with an arrow inside (PhpStorm-like)."
+          ],
+          "default": "triangles",
+          "markdownDescription": "Which gutter glyph set to use. Up = **orange** (implements/overrides parent), down = **blue** (implementations/inheritors/overrides).",
+          "order": 3
+        },
+        "phpRelations.gutterIcons.opacity": {
+          "type": "integer",
+          "minimum": 10,
+          "maximum": 100,
+          "default": 50,
+          "markdownDescription": "Gutter icon opacity as a percentage (`10` = faint, `100` = opaque). Lower values blend into the editor theme.",
+          "order": 4
+        },
+        "phpRelations.gutterIcons.hover": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show a popup listing related declarations when hovering a line that has a gutter icon. (Requires gutter icons enabled.)",
+          "order": 5
+        },
+        "phpRelations.gutterIcons.hoverLimit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200,
+          "default": 15,
+          "markdownDescription": "Maximum number of items listed in the hover popup before it shows “…and N more”.",
+          "order": 6
+        },
+        "phpRelations.indicators.implementations": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show **implementations** on interfaces and interface/abstract methods (who implements this).",
+          "order": 10
+        },
+        "phpRelations.indicators.inheritors": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show **inheritors** on classes (subclasses that extend this class).",
+          "order": 11
+        },
+        "phpRelations.indicators.overrides": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show **overrides** on methods (methods in subclasses that override this one).",
+          "order": 12
+        },
+        "phpRelations.indicators.parent": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show the upward **implements / overrides** link to the base declaration a method or class derives from.",
+          "order": 13
+        },
+        "phpRelations.indicators.traitUsages": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show **trait usages** on trait declarations (classes that `use` this trait).",
+          "order": 14
+        },
+        "phpRelations.exclude": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "**/vendor/**"
+          ],
+          "markdownDescription": "Glob patterns for PHP files to exclude from indexing. Types in excluded files (e.g. `vendor`) won't get indicators or appear as relationship targets.",
+          "order": 20
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile -- --minify",
+    "compile": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "compile-tests": "tsc -p tsconfig.test.json",
+    "pretest": "npm run compile-tests",
+    "test:unit": "mocha",
+    "test": "vscode-test",
+    "package": "vsce package"
+  },
+  "dependencies": {
+    "php-parser": "^3.2.5"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.0.0",
+    "@types/vscode": "^1.90.0",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.6.0",
+    "esbuild": "^0.25.0",
+    "mocha": "^11.0.0",
+    "typescript": "^5.7.0"
+  }
+}
