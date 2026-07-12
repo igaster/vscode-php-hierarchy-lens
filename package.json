@@ -2,7 +2,7 @@
   "name": "php-hierarchy-lens",
   "displayName": "PHP Hierarchy Lens",
   "description": "PhpStorm-style CodeLens and gutter indicators for interface implementations, class inheritance, method overrides, and trait usage.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "igaster",
   "license": "MIT",
   "author": {
