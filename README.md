@@ -4,7 +4,7 @@
 indicators for interface implementations, class inheritance, method overrides, and trait
 usage. No language server required, no paywall.
 
-![PHP Hierarchy Lens in action](media/preview-hero.png)
+![PHP Hierarchy Lens in action](media/demo.gif)
 
 ## Why
 

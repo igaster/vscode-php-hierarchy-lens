@@ -15,6 +15,7 @@ tsconfig*.json
 .gitignore
 .git/**
 generated-icons/**
+media/demo.gif
 Makefile
 .env
 .env.example
