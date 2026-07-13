@@ -98,6 +98,6 @@ _git-release:
 	@VER=$$(node -p "require('./package.json').version"); \
 		git add package.json package-lock.json; \
 		git commit -m "Release v$$VER"; \
-		git tag "v$$VER"; \
-		git push --follow-tags; \
+		git tag -a "v$$VER" -m "Release v$$VER"; \
+		git push origin HEAD "v$$VER"; \
 		echo "✓ Released v$$VER"
