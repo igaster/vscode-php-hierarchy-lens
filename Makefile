@@ -8,7 +8,7 @@ export
 # Re-evaluated on every use, so it tracks the version after a bump.
 VSIX = php-hierarchy-lens-$(shell node -p "require('./package.json').version").vsix
 
-.PHONY: help install compile test package verify \
+.PHONY: help install compile test package verify github-release \
         publish publish-vsce publish-ovsx \
         release release-minor release-major _release _git-release
 
@@ -16,7 +16,8 @@ help:
 	@echo "make verify         Check marketplace tokens work (no publish)"
 	@echo "make package        Build the .vsix for the current version"
 	@echo "make publish        Package + publish the current version to both marketplaces"
-	@echo "make release        Test, bump PATCH, package, publish, commit, tag, push"
+	@echo "make github-release Create a GitHub release with the .vsix attached"
+	@echo "make release        Test, bump PATCH, package, publish, commit, tag, push, GitHub release"
 	@echo "make release-minor  Same, bumping the MINOR version"
 	@echo "make release-major  Same, bumping the MAJOR version"
 
@@ -59,13 +60,25 @@ publish-ovsx:
 		echo "⏭  Skipping Open VSX (OVSX_PAT not set in .env)"; \
 	fi
 
+# Create a GitHub release for the current version with the .vsix attached, so
+# plain-VS-Code users (and editors without a store) can install from VSIX.
+# Uses the current tag if it exists, otherwise creates it at HEAD.
+github-release:
+	@command -v gh >/dev/null 2>&1 || { echo "ERROR: gh CLI not installed — https://cli.github.com"; exit 1; }
+	@test -f "$(VSIX)" || { echo "ERROR: $(VSIX) not found — run 'make package' first"; exit 1; }
+	@VER=$$(node -p "require('./package.json').version"); \
+		gh release create "v$$VER" "$(VSIX)" \
+			--title "v$$VER" \
+			--notes "**VS Code:** download the attached \`.vsix\` → *Extensions → ⋯ → Install from VSIX…*.  **Cursor / VSCodium / Windsurf / Gitpod:** search \"PHP Hierarchy Lens\" (Open VSX)." \
+		&& echo "✓ GitHub release v$$VER created"
+
 publish: package publish-vsce publish-ovsx
 	@done=""; \
 		[ -n "$$VSCE_PAT" ] && done="$$done VS-Code-Marketplace"; \
 		[ -n "$$OVSX_PAT" ] && done="$$done Open-VSX"; \
 		[ -n "$$done" ] && echo "✓ Published $(VSIX) to:$$done" || echo "⚠  Nothing published (no tokens set in .env)"
 
-# Release = clean check → tests → version bump → package → publish → commit/tag/push
+# Release = clean check → tests → bump → package → publish → commit/tag/push → GitHub release
 release:       BUMP := patch
 release-minor: BUMP := minor
 release-major: BUMP := major
@@ -79,6 +92,7 @@ _release:
 	$(MAKE) package
 	$(MAKE) publish-vsce publish-ovsx
 	$(MAKE) _git-release
+	$(MAKE) github-release
 
 _git-release:
 	@VER=$$(node -p "require('./package.json').version"); \
